@@ -4,13 +4,13 @@ import '../models/api.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-class FormTambah extends StatefulWidget{
+class FormTambah extends StatefulWidget {
   const FormTambah({super.key});
   @override
   State<StatefulWidget> createState() => FormTambahState();
-
 }
-class FormTambahState extends State<FormTambah>{
+
+class FormTambahState extends State<FormTambah> {
   final formkey = GlobalKey<FormState>();
   TextEditingController nisnController = TextEditingController();
   TextEditingController namaController = TextEditingController();
@@ -22,23 +22,20 @@ class FormTambahState extends State<FormTambah>{
   String? selectedValue;
   String? selectedReligion; // Menyimpan nilai yang dipilih
   Future createSw() async {
-    return await http.post(
-        Uri.parse(BaseUrl.tambah),
-        body: {
-          'nisn': nisnController.text,
-          'nama': namaController.text,
-          'alamat': alamatController.text,
-          "jenis_kelamin": jenis_kelaminController.text,
-          "agama": agamaController.text,
-          "tanggal_lahir": tanggal_lahirController.text,
-        }
-    );
+    return await http.post(Uri.parse(BaseUrl.tambah), body: {
+      'nisn': nisnController.text,
+      'nama': namaController.text,
+      'alamat': alamatController.text,
+      "jenis_kelamin": jenis_kelaminController.text,
+      "agama": agamaController.text,
+      "tanggal_lahir": tanggal_lahirController.text,
+    });
   }
 
   void _onConfirm(context) async {
     http.Response response = await createSw();
     final data = json.decode(response.body);
-    if(data['success']) {
+    if (data['success']) {
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
     }
@@ -70,13 +67,15 @@ class FormTambahState extends State<FormTambah>{
             _textboxTanggal(),
             _textboxAgama(),
             _textboxAlamat(),
-            const SizedBox(height: 20.0), // Memberikan jarak antara input form dan tombol
+            const SizedBox(
+                height: 20.0), // Memberikan jarak antara input form dan tombol
             _tombolSimpan(),
           ],
         ),
       ),
     );
   }
+
   _textboxNisn() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10),
@@ -95,14 +94,17 @@ class FormTambahState extends State<FormTambah>{
       child: TextField(
         decoration: const InputDecoration(
           labelText: "NISN Siswa",
-          prefixIcon: Icon(Icons.person), // Menambahkan ikon di dalam input form
+          prefixIcon: Icon(
+              Icons.person_pin_rounded), // Menambahkan ikon di dalam input form
           border: InputBorder.none, // Menghilangkan border default
-          contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0), // Mengatur padding
+          contentPadding: EdgeInsets.symmetric(
+              vertical: 15.0, horizontal: 10.0), // Mengatur padding
         ),
         controller: nisnController,
       ),
     );
   }
+
   _textboxNama() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10),
@@ -121,14 +123,17 @@ class FormTambahState extends State<FormTambah>{
       child: TextField(
         decoration: const InputDecoration(
           labelText: "Nama Siswa",
-          prefixIcon: Icon(Icons.person), // Menambahkan ikon di dalam input form
+          prefixIcon:
+              Icon(Icons.person), // Menambahkan ikon di dalam input form
           border: InputBorder.none, // Menghilangkan border default
-          contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0), // Mengatur padding
+          contentPadding: EdgeInsets.symmetric(
+              vertical: 15.0, horizontal: 10.0), // Mengatur padding
         ),
         controller: namaController,
       ),
     );
   }
+
   _textboxAlamat() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10),
@@ -147,14 +152,17 @@ class FormTambahState extends State<FormTambah>{
       child: TextField(
         decoration: const InputDecoration(
           labelText: "Alamat Siswa",
-          prefixIcon: Icon(Icons.add_home), // Menambahkan ikon di dalam input form
+          prefixIcon:
+              Icon(Icons.add_home), // Menambahkan ikon di dalam input form
           border: InputBorder.none, // Menghilangkan border default
-          contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0), // Mengatur padding
+          contentPadding: EdgeInsets.symmetric(
+              vertical: 15.0, horizontal: 10.0), // Mengatur padding
         ),
         controller: alamatController,
       ),
     );
   }
+
   _textboxGender() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10),
@@ -173,10 +181,10 @@ class FormTambahState extends State<FormTambah>{
       child: DropdownButtonFormField<String>(
         decoration: const InputDecoration(
           labelText: 'Jenis Kelamin',
-          prefixIcon: Icon(Icons.mosque), // Anda bisa mengganti ikon jika perlu
+          prefixIcon: Icon(Icons.wc), // Anda bisa mengganti ikon jika perlu
           border: InputBorder.none,
           contentPadding:
-          EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
         ),
         isExpanded: true,
         hint: const Text(
@@ -202,7 +210,7 @@ class FormTambahState extends State<FormTambah>{
           setState(() {
             selectedValue = value; // Set nilai yang dipilih
             jenis_kelaminController.text =
-            selectedValue!; // Simpan ke controller
+                selectedValue!; // Simpan ke controller
           });
         },
         validator: (value) {
@@ -214,6 +222,7 @@ class FormTambahState extends State<FormTambah>{
       ),
     );
   }
+
   _textboxAgama() {
     List<DropdownMenuItem<String>> items = [
       DropdownMenuItem(value: '1', child: Text('Islam')),
@@ -244,7 +253,7 @@ class FormTambahState extends State<FormTambah>{
           prefixIcon: Icon(Icons.mosque),
           border: InputBorder.none,
           contentPadding:
-          EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
         ),
         isExpanded: true,
         hint: const Text(
@@ -270,6 +279,7 @@ class FormTambahState extends State<FormTambah>{
       ),
     );
   }
+
   _textboxTanggal() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 8.0),
@@ -291,7 +301,8 @@ class FormTambahState extends State<FormTambah>{
           labelText: "Tanggal Lahir Siswa",
           prefixIcon: Icon(Icons.cake), // Ikon kalender di dalam input form
           border: InputBorder.none, // Menghilangkan border default
-          contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0), // Mengatur padding
+          contentPadding: EdgeInsets.symmetric(
+              vertical: 15.0, horizontal: 10.0), // Mengatur padding
         ),
         readOnly: true,
         onTap: () async {
@@ -304,7 +315,8 @@ class FormTambahState extends State<FormTambah>{
 
           if (pickedDate != null) {
             setState(() {
-              tanggal_lahirController.text = "${pickedDate.toLocal()}".split(' ')[0];
+              tanggal_lahirController.text =
+                  "${pickedDate.toLocal()}".split(' ')[0];
             });
           }
         },
@@ -318,11 +330,14 @@ class FormTambahState extends State<FormTambah>{
         _onConfirm(context);
       },
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white, backgroundColor: Colors.purple, // Warna teks
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.purple, // Warna teks
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0), // Membuat sudut tombol melengkung
+          borderRadius:
+              BorderRadius.circular(10.0), // Membuat sudut tombol melengkung
         ),
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0), // Padding di dalam tombol
+        padding: const EdgeInsets.symmetric(
+            vertical: 15.0, horizontal: 30.0), // Padding di dalam tombol
         elevation: 5.0, // Efek shadow di bawah tombol
         shadowColor: Colors.grey.withOpacity(0.5), // Warna shadow
       ),

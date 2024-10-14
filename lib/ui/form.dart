@@ -169,7 +169,7 @@ class EditDataSiswaState extends State<EditDataSiswa> {
       child: DropdownButtonFormField<String>(
         decoration: const InputDecoration(
           labelText: 'Jenis Kelamin',
-          prefixIcon: Icon(Icons.mosque), // Anda bisa mengganti ikon jika perlu
+          prefixIcon: Icon(Icons.wc), // Anda bisa mengganti ikon jika perlu
           border: InputBorder.none,
           contentPadding:
               EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
